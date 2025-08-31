@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" fill="#f8fafc"/>
+  <circle cx="1080" cy="60" r="110" fill="url(#g)" opacity="0.12"/>
+  <circle cx="100" cy="240" r="140" fill="url(#g)" opacity="0.12"/>
+  <text x="60" y="160" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="54" font-weight="700" fill="#0f172a">Web Scraper · Data Collection</text>
+  <text x="60" y="210" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="24" fill="#334155">FastAPI · BeautifulSoup · Pandas · Playwright · Celery</text>
+</svg>
