@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+.mypy_cache/
+.pytest_cache/
+*.egg-info/
+
+# Environments
+.env
+.venv/
+venv/
+ENV/
+
+# OS/Editor
+.DS_Store
+.vscode/
+.idea/
+
+# App
+/temp/
+/static/**/*.map
+/playwright-report/
+/test-results/
+
+# Docker
+*.log
