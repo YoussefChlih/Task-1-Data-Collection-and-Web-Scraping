@@ -2,13 +2,17 @@ from fastapi import APIRouter, Request, HTTPException, BackgroundTasks, Form
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from .utils import scrape_data, generate_file
+from pathlib import Path
 import uuid
 import os
 from typing import Optional
 import io
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")
+# Resolve templates path to absolute to work in serverless environments
+BASE_DIR = Path(__file__).resolve().parents[1]
+TEMPLATES_DIR = BASE_DIR / "templates"
+templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 @router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
