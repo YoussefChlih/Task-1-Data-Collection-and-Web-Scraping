@@ -4,6 +4,7 @@ import pandas as pd
 import io
 from typing import Dict, List, Tuple, Union, Optional
 from urllib.parse import urljoin
+import os
 
 def scrape_data(
     url: str,
@@ -31,7 +32,9 @@ def scrape_data(
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0 Safari/537.36"
         }
-        if dynamic:
+        # Disable dynamic on Vercel serverless (no browser runtime)
+        dynamic_allowed = dynamic and not os.getenv("VERCEL")
+        if dynamic_allowed:
             try:
                 from playwright.sync_api import sync_playwright
                 with sync_playwright() as p:

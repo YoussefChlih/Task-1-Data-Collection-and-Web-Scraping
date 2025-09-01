@@ -77,22 +77,19 @@ then returns a clean dataset as a file download. For pages with multiple HTML ta
 <h2 id="data-flow">🔄 Data Flow (sequence)</h2>
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    participant U as User (Browser)
-    participant F as FastAPI (/scrape)
-    participant C as Scraper (utils)
-    participant X as Exporter
-    participant D as Download
+flowchart LR
+  U[Browser Form]
+  A[FastAPI /scrape]
+  S[HTML Parsing with BeautifulSoup]
+  P[Pandas DataFrames]
+  R[StreamingResponse]
+  D[Download]
 
-    U->>F: POST form-data (url, selector, format, options)
-    F->>C: scrape_data(url, selector, dynamic, pagination, waits)
-    C->>C: fetch (requests or Playwright), parse (BeautifulSoup)
-    C->>F: DataFrame(s)/dict
-    F->>X: generate_file(data, format)
-    X->>F: bytes (CSV/XLSX/JSON/TXT)
-    F->>D: StreamingResponse (Content-Disposition: attachment)
-    D->>U: Save file
+  U -->|POST form-data| A
+  A -->|requests or Playwright| S
+  S -->|tables or rows| P
+  P -->|to_csv / to_json / to_excel| R
+  R -->|attachment| D
 ```
 
 [Back to top](#top)
@@ -175,7 +172,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Open http://127.0.0.1:8000
+Open <http://127.0.0.1:8000> and submit the form.
 
 Playwright setup (optional, for dynamic pages):
 ```bash
@@ -192,7 +189,7 @@ Run with Docker:
 ```bash
 docker-compose up --build
 ```
-Web: http://127.0.0.1:8000
+Web: <http://127.0.0.1:8000>
 
 Optional Celery worker:
 ```bash
@@ -209,7 +206,7 @@ Notes:
 
 <h2 id="project-structure">📂 Project Structure</h2>
 
-```
+```text
 app/
   main.py        # FastAPI app and static mount
   routes.py      # Endpoints: /, /scrape (+ placeholders for async status)
