@@ -1,7 +1,6 @@
 # Vercel Python Serverless entrypoint
-# Exposes a WSGI-compatible `app` by wrapping the FastAPI ASGI app
-from asgiref.wsgi import AsgiToWsgi
-from app.main import app as fastapi_app
-
-# Wrap FastAPI ASGI app as WSGI for @vercel/python runtime
-app = AsgiToWsgi(fastapi_app)
+"""
+Expose the FastAPI ASGI app directly. Vercel's Python runtime can load an ASGI
+callable named `app` without needing an adapter.
+"""
+from app.main import app as app
