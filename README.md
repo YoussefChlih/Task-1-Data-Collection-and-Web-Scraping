@@ -1,11 +1,11 @@
+<div id="top"></div>
+
 # 🕸️ Web Scraper & Data Collection Tool
 
 A production-ready, browser-first web app to scrape static or dynamic web pages, extract tables or structured content via CSS selectors, paginate across pages, and export clean datasets in CSV, Excel (.xlsx), JSON, or TXT — all delivered as a direct download. Built with a pragmatic, extensible architecture using FastAPI, BeautifulSoup, Pandas, and optional Playwright + Celery.
 
 <div align="center">
-
-<img src="assets/banner.svg" alt="Web Scraper banner" width="820"/>
-
+  <img src="assets/banner.svg" alt="Web Scraper banner" width="820"/>
 </div>
 
 <p align="left">
@@ -25,46 +25,28 @@ A production-ready, browser-first web app to scrape static or dynamic web pages,
 
 ---
 
-## ✨ What you get (as a user)
-- 🌐 Direct browser download — no job IDs or polling needed for the common path.
-- 🔍 Targeted extraction with CSS selectors (tables or any elements).
-- 🕹️ Dynamic rendering via Playwright for JS-heavy sites (optional).
-- 🔄 Pagination support:
-  - Query parameter iteration (e.g., `?page=1..N`)
-  - Next-link navigation by CSS selector (e.g., a “Next” button)
-- 📝 Export formats: CSV, Excel (multi-sheet for multi-table pages), JSON, TXT.
-- 🎨 Clean, accessible UI (Bootstrap + custom light theme).
+<h2 id="toc">🧭 Table of Contents</h2>
 
-## 🧱 What you get (as a developer/architect)
-- Clear layering: Presentation → API → Scraping → Export → Delivery.
-- FastAPI endpoints with streaming responses and MIME-correct downloads.
-- Pluggable scraping core: requests or Playwright → BeautifulSoup → Pandas.
-- Optional async offloading with Celery + Redis for heavy workloads.
-- Simple project structure with room for growth and testing.
-
----
-
-## 🧭 Table of Contents
 - [Overview](#overview)
 - [Architecture](#architecture)
-- [Data Flow](#data-flow-sequence)
-- [API and Parameters](#api-and-parameters)
-- [Extraction & Export Details](#extraction--export-details)
-- [Getting Started](#getting-started-local)
-- [Docker & Optional Async](#docker--optional-async)
+- [Data Flow](#data-flow)
+- [API and Parameters](#api)
+- [Extraction & Export Details](#extraction-export)
+- [Getting Started](#getting-started)
+- [Docker & Optional Async](#docker-async)
 - [Project Structure](#project-structure)
 - [Usage Examples](#usage-examples)
 - [Performance Tips](#performance-tips)
 - [Security Notes](#security-notes)
 - [Troubleshooting](#troubleshooting)
-- [Roadmap](#roadmap-suggested)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 
-
 ---
 
-## 🗺️ Overview
+<h2 id="overview">🗺️ Overview</h2>
+
 This application lets users input:
 - a target URL,
 - an optional CSS selector,
@@ -73,11 +55,11 @@ This application lets users input:
 
 then returns a clean dataset as a file download. For pages with multiple HTML tables, Excel exports contain one worksheet per table. For non-table selectors, the app returns structured rows with useful fields (e.g., tag, text, absolute href/src, attributes).
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🏗️ Architecture
+<h2 id="architecture">🏗️ Architecture</h2>
 
 - Presentation: Bootstrap form submits `multipart/form-data` to `/scrape`, and receives a streamed file.
 - API: FastAPI routes (`/`, `/scrape`) validate inputs and orchestrate scraping + export.
@@ -88,11 +70,11 @@ then returns a clean dataset as a file download. For pages with multiple HTML ta
 
 ![Image](static/image.png)
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🔄 Data Flow (sequence)
+<h2 id="data-flow">🔄 Data Flow (sequence)</h2>
 
 ```mermaid
 sequenceDiagram
@@ -113,11 +95,11 @@ sequenceDiagram
     D->>U: Save file
 ```
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🔌 API and Parameters
+<h2 id="api">🔌 API and Parameters</h2>
 
 - GET `/` → Renders the form UI.
 - POST `/scrape` → Accepts `multipart/form-data` and returns a streamed file.
@@ -150,11 +132,11 @@ curl -X POST http://127.0.0.1:8000/scrape \
   -F "format=xlsx"
 ```
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🧩 Extraction & Export Details
+<h2 id="extraction-export">🧩 Extraction & Export Details</h2>
 
 Tables:
 - If the page or selector yields HTML tables, they are parsed into Pandas DataFrames.
@@ -174,14 +156,14 @@ Dynamic rendering (optional):
 
 Pagination:
 - Query parameter iteration: appends/replaces `?{page_param}={N}` for page_start..page_end.
-- Next-link navigation: clicks/follows the anchor found by `next_selector` until not found or `max_pages` reached.
+- Next-link navigation: follows the anchor found by `next_selector` until not found or `max_pages` reached.
 - Combine with `delay_ms` to be polite and avoid rate limits.
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🚀 Getting Started (Local)
+<h2 id="getting-started">🚀 Getting Started (Local)</h2>
 
 Requirements:
 - Python 3.11+
@@ -200,11 +182,11 @@ Playwright setup (optional, for dynamic pages):
 python -m playwright install chromium
 ```
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🐳 Docker & Optional Async
+<h2 id="docker-async">🐳 Docker & Optional Async</h2>
 
 Run with Docker:
 ```bash
@@ -221,11 +203,11 @@ Notes:
 - Async mode is optional; the standard path streams results immediately.
 - For very large, long-running scrapes, consider enabling Celery + Redis and extending `/status` and `/result` endpoints.
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 📂 Project Structure
+<h2 id="project-structure">📂 Project Structure</h2>
 
 ```
 app/
@@ -243,11 +225,11 @@ assets/
   banner.svg     # README/branding asset
 ```
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🧑‍🏫 Usage Examples
+<h2 id="usage-examples">🧑‍🏫 Usage Examples</h2>
 
 1) Extract a Wikipedia table to CSV
 - URL: A “List of …” page with tables
@@ -270,11 +252,11 @@ assets/
 - Selector: `table`
 - Format: XLSX (will group multiple tables/pages)
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## ⚙️ Performance Tips
+<h2 id="performance-tips">⚙️ Performance Tips</h2>
 
 - Provide specific CSS selectors (e.g., `table.data`, `.product-list > .item`) to reduce parsing overhead.
 - Prefer `requests` unless the site is JS-heavy — toggle Playwright only when necessary.
@@ -282,11 +264,11 @@ assets/
 - Add `delay_ms` for throttling to avoid bans or rate limits.
 - Consider offloading heavy jobs to Celery workers in production.
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🔒 Security Notes
+<h2 id="security-notes">🔒 Security Notes</h2>
 
 - Only http/https URLs are accepted.
 - Respect robots.txt, site ToS, and legal constraints for scraping.
@@ -296,11 +278,11 @@ assets/
   - Input validation and URL allowlist per your org policy
   - Network egress rules for scraper containers
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🧩 Troubleshooting
+<h2 id="troubleshooting">🧩 Troubleshooting</h2>
 
 - Empty CSV/Excel
   - Enable dynamic rendering and provide a `wait_selector` (e.g., `table`, `#content`).
@@ -310,31 +292,34 @@ assets/
 - Playwright errors
   - Install Chromium: `python -m playwright install chromium`
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🗺️ Roadmap (suggested)
+<h2 id="roadmap">🗺️ Roadmap (suggested)</h2>
+
 - Add configurable headers, proxies, and per-site profiles.
 - Enrich non-table extraction with configurable attribute whitelists.
 - Add auth patterns (cookies/session/headers) for private data (where allowed).
 - Production-grade Celery integration with persistent storage for results.
 - Advanced pagination heuristics (auto-detect next links).
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 🤝 Contributing
+<h2 id="contributing">🤝 Contributing</h2>
+
 - Open issues and PRs are welcome. Please:
   - Keep changes focused and tested.
   - Describe the behavior clearly and link any relevant pages for reproducibility.
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
 
 ---
 
-## 📜 License
+<h2 id="license">📜 License</h2>
+
 MIT © 2025 Youssef Chlih
 
-[Back to top](#web-scraper--data-collection-tool)
+[Back to top](#top)
